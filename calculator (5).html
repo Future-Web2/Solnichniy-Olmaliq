@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solnechniy Print — Olmaliq</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange: #FF6B00;
+  --orange-light: #FFF0E5;
+  --orange-dark: #CC5500;
+  --black: #1a1a1a;
+  --white: #fff;
+  --gray: #f5f5f2;
+  --border: #e5e5e0;
+  --text-muted: #777;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(135deg, #fff8f0 0%, #fff3e5 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 32px 16px 60px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(255,107,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  width: 100%;
+  max-width: 400px;
+  overflow: hidden;
+}
+
+.header {
+  background: var(--orange);
+  padding: 28px 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: 60px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+}
+.header-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 8px;
+}
+.header h1 {
+  font-size: 26px;
+  font-weight: 900;
+  color: white;
+  line-height: 1.1;
+  position: relative;
+}
+.header p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.body { padding: 24px; }
+
+.field { margin-bottom: 16px; }
+
+.field-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.input-field {
+  width: 100%;
+  height: 50px;
+  padding: 0 16px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'Nunito', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.input-field:focus {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,107,0,0.12);
+}
+.input-field::placeholder { color: #ccc; font-weight: 600; }
+
+.select-wrap { position: relative; }
+.select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 16px; top: 50%;
+  transform: translateY(-50%);
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #aaa;
+  pointer-events: none;
+}
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.price-box {
+  background: var(--orange-light);
+  border: 2px solid rgba(255,107,0,0.2);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-top: 4px;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+.price-box.has-value { border-color: var(--orange); }
+.price-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.price-total {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--orange);
+  line-height: 1;
+}
+.price-unit {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+.price-detail {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  margin-top: 4px;
+}
+.price-empty {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ccc;
+}
+
+/* Tier info */
+.tier-info {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.tier-item {
+  background: var(--gray);
+  border-radius: 8px;
+  padding: 8px 4px;
+  text-align: center;
+  transition: all 0.15s;
+}
+.tier-item.active {
+  background: var(--orange-light);
+  outline: 2px solid var(--orange);
+}
+.t-range {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.tier-item.active .t-range { color: var(--orange-dark); }
+.t-disc {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--black);
+  margin-top: 2px;
+}
+.tier-item.active .t-disc { color: var(--orange); }
+
+/* Footer */
+.footer {
+  border-top: 2px solid var(--border);
+  padding: 18px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--gray);
+}
+.contact-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--black);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s;
+}
+.contact-link:hover { color: var(--orange); }
+.contact-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+.tg-icon { color: #24A1DE; }
+.ph-icon { color: #2ecc71; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <div class="header-tag">📍 Olmaliq · Chop xizmati</div>
+    <h1>Solnechniy Print</h1>
+    <p>Kitob narxini avtomatik hisoblaymiz</p>
+  </div>
+
+  <div class="body">
+
+    <div class="row">
+      <div class="field">
+        <span class="field-label">Betlar soni</span>
+        <input type="number" class="input-field" id="betlar" placeholder="200" min="1">
+      </div>
+      <div class="field">
+        <span class="field-label">Nusxa soni</span>
+        <input type="number" class="input-field" id="nusxa" placeholder="10" min="1">
+      </div>
+    </div>
+
+    <div class="field">
+      <span class="field-label">O'lcham</span>
+      <div class="select-wrap">
+        <select class="input-field" id="olcham">
+          <option value="A5">A5 — kichik</option>
+          <option value="A4">A4 — katta</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="price-box" id="priceBox">
+      <div class="price-empty">Betlar va nusxa sonini kiriting</div>
+    </div>
+
+    <div class="tier-info">
+      <div class="tier-item" id="t1">
+        <div class="t-range">1–2 nusxa</div>
+        <div class="t-disc">×1.5</div>
+      </div>
+      <div class="tier-item" id="t2">
+        <div class="t-range">3–10 nusxa</div>
+        <div class="t-disc">×1.3</div>
+      </div>
+      <div class="tier-item" id="t3">
+        <div class="t-range">11–20 nusxa</div>
+        <div class="t-disc">×1.2</div>
+      </div>
+      <div class="tier-item" id="t4">
+        <div class="t-range">21–100 nusxa</div>
+        <div class="t-disc">×0.95</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <a href="https://t.me/solnechniyolmaliq1" class="contact-link">
+      <svg class="tg-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+      </svg>
+      @solnechniyolmaliq1
+    </a>
+    <a href="tel:+998901531703" class="contact-link">
+      <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      90 153 17 03
+    </a>
+  </div>
+
+</div>
+
+<script>
+const BET_NARX = { A5: 100, A4: 170 };
+const JILD = 5500;
+
+function fmt(n) { return Math.round(n).toLocaleString('ru-RU'); }
+
+function getKoef(n) {
+  if (n <= 2)   return { k: 1.5,  id: 't1' };
+  if (n <= 10)  return { k: 1.3,  id: 't2' };
+  if (n <= 20)  return { k: 1.2,  id: 't3' };
+  return               { k: 0.95, id: 't4' };
+}
+
+function hisoblash() {
+  const betlar = parseInt(document.getElementById('betlar').value) || 0;
+  const nusxa  = parseInt(document.getElementById('nusxa').value)  || 0;
+  const olcham = document.getElementById('olcham').value;
+  const box    = document.getElementById('priceBox');
+
+  ['t1','t2','t3','t4'].forEach(id => document.getElementById(id).classList.remove('active'));
+
+  if (!betlar || !nusxa) {
+    box.innerHTML = '<div class="price-empty">Betlar va nusxa sonini kiriting</div>';
+    box.classList.remove('has-value');
+    return;
+  }
+
+  const { k, id } = getKoef(nusxa);
+  const perBook = (betlar * BET_NARX[olcham] + JILD) * k;
+  const jami    = perBook * nusxa;
+
+  document.getElementById(id).classList.add('active');
+  box.classList.add('has-value');
+  box.innerHTML = `
+    <div class="price-label">Jami narx</div>
+    <div class="price-total">${fmt(jami)}</div>
+    <div class="price-unit">so'm</div>
+    <div class="price-detail">${nusxa} nusxa × ${fmt(perBook)} so'm</div>
+  `;
+}
+
+document.getElementById('betlar').addEventListener('input', hisoblash);
+document.getElementById('nusxa').addEventListener('input', hisoblash);
+document.getElementById('olcham').addEventListener('change', hisoblash);
+</script>
+</body>
+</html>
